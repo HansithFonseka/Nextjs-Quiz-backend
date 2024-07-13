@@ -4,6 +4,11 @@ const bcrypt = require('bcryptjs');
 const registerUser = async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
 
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+    }
+
     try {
         // Check if user already exists
         let user = await User.findOne({ email });
